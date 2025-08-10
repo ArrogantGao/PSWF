@@ -1123,7 +1123,7 @@ double prolate0_int_eval(double c, double r) {
 // end of prolate functions
 
 // start of approximation functions
-void force_poly(double tol, int order, std::vector<double>& coeffs) {
+void force_poly(double tol, int order, double* coeffs) {
     double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
@@ -1146,14 +1146,14 @@ void force_poly(double tol, int order, std::vector<double>& coeffs) {
     }
 
     monomial_interp_1d(order, nnodes, fn_v, coeffs_tmp);
-    coeffs.resize(order, 0.0);
 
     for (int i = 0; i < order; i++) {
         coeffs[order - i - 1] = coeffs_tmp[i];
     }
 }
 
-void energy_poly(double tol, int order, std::vector<double>& coeffs) {
+void energy_poly(double tol, int order, double* coeffs) {
+
     double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
@@ -1176,14 +1176,13 @@ void energy_poly(double tol, int order, std::vector<double>& coeffs) {
     }
 
     monomial_interp_1d(order, nnodes, fn_v, coeffs_tmp);
-    coeffs.resize(order, 0.0);
 
     for (int i = 0; i < order; i++) {
-        coeffs[order - i - 1] = coeffs_tmp[i];
+        coeffs[i] = coeffs_tmp[i];
     }
 }
 
-void fourier_poly(double tol, int order, std::vector<double>& coeffs) {
+void fourier_poly(double tol, int order, double* coeffs) {
     double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
@@ -1214,10 +1213,9 @@ void fourier_poly(double tol, int order, std::vector<double>& coeffs) {
     }
 
     monomial_interp_1d(order, nnodes, fn_v, coeffs_tmp);
-    coeffs.resize(order, 0.0);
 
     for (int i = 0; i < order; i++) {
-        coeffs[order - i - 1] = coeffs_tmp[i];
+        coeffs[i] = coeffs_tmp[i];
     }
 }
 

@@ -9,10 +9,10 @@
 #include <pswf.h>
 
 int main() {
-    std::vector<double> coeffs;
+    double coeffs[15];
     energy_poly(0.0001, 15, coeffs);
-    for (auto coeff : coeffs) {
-        std::cout << coeff << std::endl;
+    for (int i = 0; i < 15; i++) {
+        std::cout << coeffs[i] << std::endl;
     }
 
     double c = prolc180(0.0001);
