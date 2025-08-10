@@ -14,9 +14,8 @@ else()
 endif()
 
 add_compile_options("-march=native")
+add_compile_options("-O3")
 
-find_package(OpenMP REQUIRED)
-find_package(MPI REQUIRED)
 find_package(BLAS REQUIRED)
 
 if(BUILD_TESTS)
@@ -33,27 +32,25 @@ endif()
 
 set(INCLUDES
   ${PROJECT_SOURCE_DIR}/include
-  ${PROJECT_SOURCE_DIR}/extern/SCTL/include
 )
 
-set(SRC ${PROJECT_SOURCE_DIR}/src/hello.cpp)
+set(SRC ${PROJECT_SOURCE_DIR}/src/pswf.cpp)
 
 add_library(OBJS OBJECT ${SRC})
 set_target_properties(OBJS PROPERTIES POSITION_INDEPENDENT_CODE ON)
-target_include_directories(OBJS PUBLIC ${INCLUDES} ${MPI_CXX_INCLUDE_DIRS})
-target_link_libraries(OBJS PUBLIC OpenMP::OpenMP_CXX)
-target_compile_options(OBJS PUBLIC "-DSCTL_HAVE_MPI;-DSCTL_MAX_DEPTH=62;-funroll-loops")
+target_include_directories(OBJS PUBLIC ${INCLUDES})
+target_link_libraries(OBJS PUBLIC BLAS::BLAS)
 
 add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX OBJS)
+target_link_libraries(${PROJECT_NAME} OBJS BLAS::BLAS)
 
 add_library(${PROJECT_NAME}_shared SHARED)
 set_target_properties(${PROJECT_NAME}_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME}_shared OBJS OpenMP::OpenMP_CXX MPI::MPI_CXX BLAS::BLAS)
+target_link_libraries(${PROJECT_NAME}_shared OBJS BLAS::BLAS)
 
 if(BUILD_TESTS)
     enable_testing()
-    set(TEST_SRC ${PROJECT_SOURCE_DIR}/test/hello_test.cpp)
+    set(TEST_SRC ${PROJECT_SOURCE_DIR}/test/pswf_test.cpp)
 
     add_executable(
         ${PROJECT_NAME}_test
