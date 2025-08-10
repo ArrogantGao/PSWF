@@ -514,7 +514,7 @@ static inline void monomial_interp_1d(int order, int nnodes, std::vector<double>
 // end of monomial utils
 
 // start of prolate functions
-inline double prolc180_der3(double eps) {
+double prolc180_der3(double eps) {
 
     static const std::array<double, 180> der3s = {
         0.0                  , 3.703231117106314e-02, 2.662796075011415e-01, 5.941926542747007e-01, 9.578230754832373e-01, 1.363569812949696e+00,
@@ -554,7 +554,7 @@ inline double prolc180_der3(double eps) {
         return der3s[i - 1];
 }
 
-inline double prolc180(double eps) {
+double prolc180(double eps) {
     static const std::array<double, 180> cs = {
         0.43368E-16, 0.10048E+01, 0.17298E+01, 0.22271E+01, 0.26382E+01, 0.30035E+01, 0.33409E+01,
         0.36598E+01, 0.39658E+01, 0.42621E+01, 0.45513E+01, 0.48347E+01, 0.51136E+01, 0.53887E+01,
@@ -1123,8 +1123,8 @@ double prolate0_int_eval(double c, double r) {
 // end of prolate functions
 
 // start of approximation functions
-void force_poly(double tol, int order, double &c, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void force_poly(double tol, int order, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
 
@@ -1153,8 +1153,8 @@ void force_poly(double tol, int order, double &c, std::vector<double>& coeffs) {
     }
 }
 
-void energy_poly(double tol, int order, double &c, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void energy_poly(double tol, int order, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
 
@@ -1183,15 +1183,15 @@ void energy_poly(double tol, int order, double &c, std::vector<double>& coeffs) 
     }
 }
 
-void fourier_poly(double tol, int order, double &c, double &lambda, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void fourier_poly(double tol, int order, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
 
     int quad_npts = 200;
     std::vector<double> xs(quad_npts, 0), ws(quad_npts, 0);
     gaussian_quadrature(quad_npts, xs.data(), ws.data());
-    lambda = 0.0;
+    double lambda = 0.0;
     for (int i = 0; i < quad_npts; i++) {
         lambda += ws[i] * prolate0_eval(c, xs[i]) * std::cos(c * xs[i] * 0.5);
     }
@@ -1221,15 +1221,15 @@ void fourier_poly(double tol, int order, double &c, double &lambda, std::vector<
     }
 }
 
-void spread_fourier_poly(double tol, int order, double &c, double &lambda, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void spread_fourier_poly(double tol, int order, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     double c0 = prolate0_int_eval(c, 1.0);
 
     int quad_npts = 200;
     std::vector<double> xs(quad_npts, 0), ws(quad_npts, 0);
     gaussian_quadrature(quad_npts, xs.data(), ws.data());
-    lambda = 0.0;
+    double lambda = 0.0;
     for (int i = 0; i < quad_npts; i++) {
         lambda += ws[i] * prolate0_eval(c, xs[i]) * std::cos(c * xs[i] * 0.5);
     }
@@ -1259,8 +1259,8 @@ void spread_fourier_poly(double tol, int order, double &c, double &lambda, std::
     }
 }
 
-void spread_real_poly(int P, double tol, int order, double& c, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void spread_real_poly(int P, double tol, int order, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     std::vector<double> nodes;
     int nnodes = (int)order*1.75;
@@ -1293,8 +1293,8 @@ void spread_real_poly(int P, double tol, int order, double& c, std::vector<doubl
     }
 }
 
-void spread_real_poly_LegendaryJiangFormula(int P, double tol, int order, double rcut, double h, double& c, std::vector<double>& coeffs) {
-    c = prolc180(tol);
+void spread_real_poly_LegendaryJiangFormula(int P, double tol, int order, double rcut, double h, std::vector<double>& coeffs) {
+    double c = prolc180(tol);
 
     std::vector<double> nodes;
     int nnodes = (int)order*1.75;

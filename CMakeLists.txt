@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(cpp_template LANGUAGES CXX)
+project(PSWF LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,6 +17,7 @@ add_compile_options("-march=native")
 add_compile_options("-O3")
 
 find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
 
 if(BUILD_TESTS)
     include(FetchContent)
@@ -39,14 +40,14 @@ set(SRC ${PROJECT_SOURCE_DIR}/src/pswf.cpp)
 add_library(OBJS OBJECT ${SRC})
 set_target_properties(OBJS PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(OBJS PUBLIC ${INCLUDES})
-target_link_libraries(OBJS PUBLIC BLAS::BLAS)
+target_link_libraries(OBJS PUBLIC BLAS::BLAS LAPACK::LAPACK)
 
 add_library(${PROJECT_NAME} STATIC)
-target_link_libraries(${PROJECT_NAME} OBJS BLAS::BLAS)
+target_link_libraries(${PROJECT_NAME} OBJS BLAS::BLAS LAPACK::LAPACK)
 
 add_library(${PROJECT_NAME}_shared SHARED)
 set_target_properties(${PROJECT_NAME}_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME}_shared OBJS BLAS::BLAS)
+target_link_libraries(${PROJECT_NAME}_shared OBJS BLAS::BLAS LAPACK::LAPACK)
 
 if(BUILD_TESTS)
     enable_testing()

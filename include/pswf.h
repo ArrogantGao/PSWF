@@ -36,12 +36,12 @@ extern "C" {
     double prolate0_int_eval(double c, double r);
 
     // approximation functions
-    void force_poly(double tol, int order, double &c, std::vector<double>& coeffs);
-    void energy_poly(double tol, int order, double &c, std::vector<double>& coeffs);
-    void fourier_poly(double tol, int order, double &c, double &lambda, std::vector<double>& coeffs);
-    void spread_fourier_poly(double tol, int order, double &c, double &lambda, std::vector<double>& coeffs);
-    void spread_real_poly(int P, double tol, int order, double& c, std::vector<double>& coeffs);
-    void spread_real_poly_LegendaryJiangFormula(int P, double tol, int order, double rcut, double h, double& c, std::vector<double>& coeffs);
+    void force_poly(double tol, int order, std::vector<double>& coeffs);
+    void energy_poly(double tol, int order, std::vector<double>& coeffs);
+    void fourier_poly(double tol, int order, std::vector<double>& coeffs);
+    void spread_fourier_poly(double tol, int order, std::vector<double>& coeffs);
+    void spread_real_poly(int P, double tol, int order, std::vector<double>& coeffs);
+    void spread_real_poly_LegendaryJiangFormula(int P, double tol, int order, double rcut, double h, std::vector<double>& coeffs);
 #ifdef __cplusplus
 }
 #endif
