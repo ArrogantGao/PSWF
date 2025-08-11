@@ -1,4 +1,4 @@
-const libpswf = "/home/xzgao/code/PSWF/build/libPSWF.so"
+const libpswf = joinpath(dirname(@__FILE__), "..", "build", "libPSWF.so")
 
 function prolc180(eps::Float64)
     ccall((:prolc180, libpswf), Float64, (Float64,), eps)
@@ -17,8 +17,8 @@ function prolate0_int_eval(c::Float64, r::Float64)
 end
 
 function energy_poly(tol::Float64, order::Int)
-    coeffs = zeros(Cdouble, order)
-    ccall((:energy_poly, libpswf), Cvoid, (Cdouble, Int, Ptr{Cdouble}), tol, order, coeffs)
+    coeffs = zeros(Float64, order)
+    ccall((:energy_poly, libpswf), Cvoid, (Float64, Int, Ptr{Float64}), tol, order, coeffs)
     return coeffs
 end
 
