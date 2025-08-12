@@ -1182,11 +1182,7 @@ void energy_poly(double tol, int order, double* coeffs) {
     }
 }
 
-void fourier_poly(double tol, int order, double* coeffs) {
-    double c = prolc180(tol);
-
-    double c0 = prolate0_int_eval(c, 1.0);
-
+double prolate0_lambda(double c) {
     int quad_npts = 200;
     std::vector<double> xs(quad_npts, 0), ws(quad_npts, 0);
     gaussian_quadrature(quad_npts, xs.data(), ws.data());
@@ -1195,6 +1191,15 @@ void fourier_poly(double tol, int order, double* coeffs) {
         lambda += ws[i] * prolate0_eval(c, xs[i]) * std::cos(c * xs[i] * 0.5);
     }
     lambda /= prolate0_eval(c, 0.5);
+    return lambda;
+}
+
+void fourier_poly(double tol, int order, double* coeffs) {
+    double c = prolc180(tol);
+
+    double c0 = prolate0_int_eval(c, 1.0);
+
+    double lambda = prolate0_lambda(c);
 
     auto f = [](double lambda, double c0, double c, double x) {
         double val = lambda * prolate0_eval(c, x) / c0;

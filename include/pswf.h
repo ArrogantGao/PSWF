@@ -21,6 +21,9 @@ extern "C" {
     // prolate functions
     double prolc180(double eps);
     double prolc180_der3(double eps);
+
+    double prolate0_lambda(double c);
+
     // prolate0 functor
     struct Prolate0Fun;
 
