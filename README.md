@@ -23,3 +23,34 @@ import pypswf
 
 value = pypswf.prolate0_eval(6.0, 0.5)
 ```
+
+## Julia bindings
+
+Enable them with CMake and build the `ProlateSpheroidal` module:
+
+```bash
+cmake . -B build
+cmake --build build
+```
+
+You can then use the module in Julia by
+```julia
+pkg> dev /path/to/project/julia
+```
+
+Then you can use the module in Julia:
+```julia
+using ProlateSpheroidal
+using Plots
+
+c = prolc180(1e-6)
+f = x -> prolate0_eval(c, x)
+
+xs = range(-1, 1, length=10000)
+plot(xs, f.(xs), dpi = 300, label = "c = $(c)", xlabel = "x", ylabel = "psi0(x)")
+
+savefig("pswf.png")
+```
+You will get a figure like this:
+
+![pswf](julia/figs/pswf.png)

@@ -1,5 +1,9 @@
+module ProlateSpheroidal
+
+export prolc180, prolate0_lambda, prolate0_eval, prolate0_eval_derivative, prolate0_int_eval
+
 function get_library_path()
-    base_dir = joinpath(dirname(@__FILE__), "..", "build")
+    base_dir = joinpath(dirname(@__FILE__), "../..", "build")
     
     if Sys.iswindows()
         lib_path = joinpath(base_dir, "PSWF.dll")
@@ -38,20 +42,4 @@ function prolate0_int_eval(c::Float64, r::Float64)
     ccall((:prolate0_int_eval, libpswf), Float64, (Float64, Float64), c, r)
 end
 
-function energy_poly(tol::Float64, order::Int)
-    coeffs = zeros(Float64, order)
-    ccall((:energy_poly, libpswf), Cvoid, (Float64, Int, Ptr{Float64}), tol, order, coeffs)
-    return coeffs
-end
-
-function force_poly(tol::Float64, order::Int)
-    coeffs = zeros(Float64, order)
-    ccall((:force_poly, libpswf), Cvoid, (Float64, Int, Ptr{Float64}), tol, order, coeffs)
-    return coeffs
-end
-
-function fourier_poly(tol::Float64, order::Int)
-    coeffs = zeros(Float64, order)
-    ccall((:fourier_poly, libpswf), Cvoid, (Float64, Int, Ptr{Float64}), tol, order, coeffs)
-    return coeffs
 end
