@@ -10,7 +10,7 @@ The project includes optional Python bindings powered by [pybind11](https://gith
 Enable them with CMake and build the `pypswf` module:
 
 ```bash
-cmake -S . -B build -DBUILD_PYTHON=ON
+cmake -S . -B build -DBUILD_PYTHON=ON -DPYTHON_EXECUTABLE=/path/to/python
 cmake --build build --target pypswf
 ```
 
