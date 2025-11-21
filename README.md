@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/ArrogantGao/PSWF/actions/workflows/ci.yml/badge.svg)](https://github.com/ArrogantGao/PSWF/actions/workflows/ci.yml)
 
-A C++ implementation of the prolate spheroidal wave function.
+A C++ implementation of the prolate spheroidal wave function of the zeroth order (see the Chebfun documentation for more details [here](https://www.chebfun.org/examples/approx/Prolate.html)).
 
 ## Python bindings
 
