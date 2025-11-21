@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_PYTHON "Build Python bindings" ON)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Intel")
   add_compile_options("-DSCTL_HAVE_SVML")
@@ -19,8 +20,9 @@ add_compile_options("-O3")
 find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
 
+include(FetchContent)
+
 if(BUILD_TESTS)
-    include(FetchContent)
     FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
@@ -48,6 +50,18 @@ target_link_libraries(${PROJECT_NAME} OBJS BLAS::BLAS LAPACK::LAPACK)
 add_library(${PROJECT_NAME}_shared SHARED)
 set_target_properties(${PROJECT_NAME}_shared PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME}_shared OBJS BLAS::BLAS LAPACK::LAPACK)
+
+if(BUILD_PYTHON)
+    FetchContent_Declare(
+        pybind11
+        URL https://github.com/pybind/pybind11/archive/refs/tags/v2.12.0.tar.gz
+    )
+    FetchContent_MakeAvailable(pybind11)
+
+    pybind11_add_module(pypswf python/pypswf.cpp)
+    target_link_libraries(pypswf PRIVATE OBJS BLAS::BLAS LAPACK::LAPACK)
+    target_include_directories(pypswf PRIVATE ${INCLUDES})
+endif()
 
 if(BUILD_TESTS)
     enable_testing()
