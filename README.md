@@ -33,12 +33,12 @@ cmake . -B build
 cmake --build build
 ```
 
-You can then use the module in Julia by
+You can add the module in Julia by
 ```julia
 pkg> dev /path/to/project/julia
 ```
 
-Then you can use the module in Julia:
+Then you can use it:
 ```julia
 using ProlateSpheroidal
 using Plots
